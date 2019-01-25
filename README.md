@@ -3,6 +3,7 @@
 Upload images to database and compare live video feed to existing images.
 This project is to ultimately run as a standalone software for facial verification
 
+[![Build Status](https://travis-ci.org/deven96/face_verify.svg?branch=master)](https://travis-ci.com/deven96/face_verify)[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 - [Face Verify](#face-verify)
   - [Getting Started](#getting-started)
