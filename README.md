@@ -9,6 +9,7 @@ This project is to ultimately run as a standalone software for facial verificati
   - [Usage](#usage)
     - [Upload](#upload)
     - [Verification](#verification)
+  - [API Documentation](#api-documentation)
   - [Credits](#credits)
   - [Contribution](#contribution)
   - [License (MIT)](#license-mit)
@@ -55,6 +56,10 @@ To run verification on images existing in the database
     verifiier = Verifier()
     verifier.run()
 ```
+
+## API Documentation
+
+[Github Pages](https://deven96.github.io/face_verify)
 
 ## Credits
 

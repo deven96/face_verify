@@ -9,6 +9,16 @@ branches:
   only:
     - master
 
+install:
+  - pip install -r requirements.txt
+
+script:
+  # - pytest
+  - python main.py
+
+after_success:
+  - ./docs.sh
+
 notifications:
 # slack channel notification
     slack: bisoncorps:urrq42VfAo4zJP2r6lH2dU8Y
