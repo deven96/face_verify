@@ -18,6 +18,12 @@ This project is to ultimately run as a standalone software for facial verificati
 
 ## Getting Started
 
+Before setting up virtualenv, get the following aptitude packages, as they are necessary for the python requirements to function
+
+```bash
+    sudo apt-get install libboost-python-dev cmake
+```
+
 Setup Virtual environment and install requirements
 
 ```bash
