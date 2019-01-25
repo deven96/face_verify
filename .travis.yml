@@ -17,7 +17,7 @@ install:
 
 script:
   # - pytest
-  - python main.py
+  - python test.py 
 
 after_success:
   - ./docs.sh
