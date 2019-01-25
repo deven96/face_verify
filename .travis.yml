@@ -1,0 +1,14 @@
+language: python
+sudo: required
+
+python:
+  - "3.6"
+
+# Branches to enbale CI.
+branches:
+  only:
+    - master
+
+notifications:
+# slack channel notification
+    slack: bisoncorps:urrq42VfAo4zJP2r6lH2dU8Y

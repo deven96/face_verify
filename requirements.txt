@@ -1,0 +1,6 @@
+virtualenvwrapper
+numpy
+opencv-python
+dlib
+face-recognition
+sphinx
