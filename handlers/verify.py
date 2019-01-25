@@ -34,7 +34,6 @@ class Verifier(object):
             
     """
     def __init__(self):
-        self.ready_to_detect_face = True
         self.camera = None
         self.known_face_dict = dict()
         # always process db
@@ -45,14 +44,14 @@ class Verifier(object):
 
         """
         face_locations = []
-        face_encodings = []
         face_names = []
+        face_encodings = []
         process_this_frame = True
         cv2.namedWindow(consts.VERIFY_WINDOW)
         # TODO : video capture source should be handled by camera.py and /
         #        not default 0(webcam)
         self.camera = cv2.VideoCapture(0)
-        while self.camera.isOpened() and self.ready_to_detect_face:
+        while self.camera.isOpened():
             _, frame = self.camera.read()
 
             # Resize frame of video to 1/4 size for faster face recognition processing
@@ -65,27 +64,31 @@ class Verifier(object):
             if process_this_frame:
                 # Find all the faces and face encodings in the current frame of video
                 face_locations = face_recognition.face_locations(rgb_small_frame)
-                face_encodings = face_recognition.face_encodings(rgb_small_frame, face_locations)
+                face_encodings= face_recognition.face_encodings(rgb_small_frame, face_locations)
+                known_face_encodings = list(self.known_face_dict.values())
+                known_face_names = list(self.known_face_dict.keys())
 
                 face_names = []
                 for face_encoding in face_encodings:
                     # See if the face is a match for the known face(s)
-                    matches = face_recognition.compare_faces(list(self.known_face_dict.values()), face_encoding)
+                    # increase similarity index from 0.6 to 0.5 to reduce false positives
+                    distance = face_recognition.face_distance(known_face_encodings, face_encoding)
                     name = "Unknown"
-
-                    # If a match was found in known_face_encodings, just use the first one.
-                    if True in matches:
-                        first_match_index = matches.index(True)
-                        name = list(self.known_face_dict.keys())[first_match_index]
-
+                    print(f"Distance: {face_recognition.face_distance(known_face_encodings, face_encoding)}")
+                    # If highest element in distance higher than threshold , use the first index.
+                    if max(distance) > consts.THRESHOLD:
+                        highest_index = distance.index(max(distance))
+                        print(highest_index)
+                        name = known_face_names[highest_index]
                     face_names.append(name)
 
             process_this_frame = not process_this_frame
             self._label_frame(face_locations, face_names, frame)
 
+
             # Hit 'q' on the keyboard to quit!
             if cv2.waitKey(1) & 0xFF == ord('q'):
-                self.ready_to_detect_face = False
+                break
 
         self.stop()
 
@@ -121,8 +124,8 @@ class Verifier(object):
             font = cv2.FONT_HERSHEY_DUPLEX
             cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
 
-            # Display the resulting image
-            cv2.imshow(consts.VERIFY_WINDOW, frame)
+        # Display the resulting image
+        cv2.imshow(consts.VERIFY_WINDOW, frame)
         
 
     def _process_database(self):
@@ -141,7 +144,8 @@ class Verifier(object):
                     known_face_locations=face_recognition.face_locations(
                             i,
                             number_of_times_to_upsample=0,
-                            model="cnn"))[0]
+                            model="cnn")
+                            )[0]
                     for i in images]
         self.known_face_dict = dict(zip(names, encodings))
 

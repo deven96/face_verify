@@ -27,7 +27,7 @@ ROOT_DIR = dirname(HANDLER_DIR)
 
 # image variables
 PADDING = 50
-
+THRESHOLD = 0.57
 
 # database 
 DATABASE_DIR = os.path.join(ROOT_DIR, "database")

@@ -1,4 +1,4 @@
-from handler import Verifier, Uploader
+from handlers import Verifier, Uploader
 
 uploader = Uploader("Any Name")
 print("Uploader Class works")
