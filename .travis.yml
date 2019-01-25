@@ -9,6 +9,9 @@ branches:
   only:
     - master
 
+before_install:
+  - sudo apt-get install libboost-python-dev cmake
+
 install:
   - pip install -r requirements.txt
 
