@@ -71,15 +71,15 @@ class Verifier(object):
                 face_names = []
                 for face_encoding in face_encodings:
                     # See if the face is a match for the known face(s)
-                    # increase similarity index from 0.6 to 0.5 to reduce false positives
-                    distance = face_recognition.face_distance(known_face_encodings, face_encoding)
+                    # reduce face distance to 0.4 to reduce false positives
+                    similarity = face_recognition.face_distance(known_face_encodings, face_encoding)
                     name = "Unknown"
-                    print(f"Distance: {face_recognition.face_distance(known_face_encodings, face_encoding)}")
-                    # If highest element in distance higher than threshold , use the first index.
-                    if max(distance) > consts.THRESHOLD:
-                        highest_index = distance.index(max(distance))
-                        print(highest_index)
-                        name = known_face_names[highest_index]
+                    print(f"Similarity: {face_recognition.face_distance(known_face_encodings, face_encoding)}")
+                    # If smallest element in distance less than threshold , use the first index.
+                    if min(similarity) <= consts.THRESHOLD:
+                        closest_distance = np.argmin(similarity)
+                        print(closest_distance)
+                        name = known_face_names[closest_distance]
                     face_names.append(name)
 
             process_this_frame = not process_this_frame

@@ -93,3 +93,5 @@ A few of the images used for demonstration purposes may be under copyright. Thes
 - Multiple camera input attachment across local network
 - Make into standard python package
 - Integrate CI/CD for automatically pushing latest releases to PyPI
+- Write unittests for package
+- Use Cython for pre and post processing activities (targeted at speeding up the process)
