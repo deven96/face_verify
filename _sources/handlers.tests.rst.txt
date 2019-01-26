@@ -1,0 +1,22 @@
+handlers.tests package
+======================
+
+Submodules
+----------
+
+handlers.tests.main module
+--------------------------
+
+.. automodule:: handlers.tests.main
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: handlers.tests
+    :members:
+    :undoc-members:
+    :show-inheritance:
