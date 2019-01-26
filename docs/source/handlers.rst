@@ -1,6 +1,13 @@
 handlers package
 ================
 
+Subpackages
+-----------
+
+.. toctree::
+
+    handlers.tests
+
 Submodules
 ----------
 
