@@ -38,6 +38,7 @@
 
  """
 import argparse
+import time
 
 from handlers import Verifier, Uploader
 
@@ -48,6 +49,7 @@ subparsers = parser.add_subparsers(help='sub-command help', dest="subparser_name
 upload_parser = subparsers.add_parser('upload', help='upload help')
 upload_parser.add_argument("--name",
 				type=str,
+                required=True,
 				help="Name to give image e.g 'Sherlock Holmes'")
 
 verify_parser = subparsers.add_parser('verify', help="verify help")
@@ -55,8 +57,12 @@ verify_parser = subparsers.add_parser('verify', help="verify help")
 args = parser.parse_args()
 
 if args.subparser_name == "upload":
-	uploader = Uploader(name=args.name)
-	uploader.run()
+    strt = time.time()
+    uploader = Uploader(name=args.name)
+    print(f"Initialized uploader in {time.time()-strt}")
+    uploader.run()
 else:
-	verifier = Verifier()
-	verifier.run()
+    strt = time.time()
+    verifier = Verifier()
+    print(f"Initialized verifier in {time.time()-strt}")
+    verifier.run()

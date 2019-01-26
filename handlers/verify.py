@@ -23,6 +23,9 @@ import dlib
 import face_recognition
 import numpy as np
 import consts
+import pyximport; pyximport.install()
+from pyx import helpers
+ 
 
 
 class Verifier(object):
@@ -35,9 +38,8 @@ class Verifier(object):
     """
     def __init__(self):
         self.camera = None
-        self.known_face_dict = dict()
-        # always process db
-        self._process_database()
+        self.known_face_dict = helpers.process_database()
+
     
     def run(self):
         """ starts the verifier
@@ -78,7 +80,6 @@ class Verifier(object):
                     # If smallest element in distance less than threshold , use the first index.
                     if min(similarity) <= consts.THRESHOLD:
                         closest_distance = np.argmin(similarity)
-                        print(closest_distance)
                         name = known_face_names[closest_distance]
                     face_names.append(name)
 
@@ -126,41 +127,8 @@ class Verifier(object):
 
         # Display the resulting image
         cv2.imshow(consts.VERIFY_WINDOW, frame)
-        
 
-    def _process_database(self):
-        """ Processes database
-        """
-        image_names = consts.IMAGES_IN_DATABASE
-        # get human readable name using image name
-        names = [self._readable_name(i) for i in image_names]
-        # absolute location of every image stored as a list
-        locations = [os.path.join(consts.DATABASE_DIR, i) for i in image_names]
-        images = [face_recognition.load_image_file(i) for i in locations]
-        # use face_location to try precompute known_face_locations
-        encodings = [face_recognition.face_encodings(i, 
-                    # face_location api uses the same engine that was used to 
-                    #  detect a face for upload
-                    known_face_locations=face_recognition.face_locations(
-                            i,
-                            number_of_times_to_upsample=0,
-                            model="cnn")
-                            )[0]
-                    for i in images]
-        self.known_face_dict = dict(zip(names, encodings))
 
-    def _readable_name(self, name):
-        """ gets the name from a single image_name
-
-        :param name: underscore separated name
-        :type name: str
-        :rtype: str
-        """
-        if name.endswith(".jpg"):
-            name = name[:-4]
-            return name.replace("_", " ")
-        else:
-            raise Exception("Image does not end with .jpg")
 
 # if __name__=="__main__":
 #     verifier = Verifier()
